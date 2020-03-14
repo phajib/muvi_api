@@ -5,6 +5,7 @@ ruby '2.6.3'
 
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'faker'
+gem 'fast_jsonapi'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
