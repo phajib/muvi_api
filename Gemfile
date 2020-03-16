@@ -3,9 +3,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
-gem 'active_model_serializers', '~> 0.10.2'
-gem 'faker'
-gem 'fast_jsonapi'
+gem 'active_model_serializers', '~> 0.10.10'
+gem 'faker', '~> 2.10', '>= 2.10.2'
+gem 'fast_jsonapi', '~> 1.5'
+gem 'rest-client', '~> 1.8'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
