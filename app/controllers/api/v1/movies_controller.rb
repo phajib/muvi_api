@@ -1,47 +1,48 @@
 class MoviesController < ApplicationController
-    require 'rest-client'
+  require 'rest-client'
 
-    MUVI_API_KEY = ENV['TMDB_API_KEY']
+  # skip_before_action :authorized, only: %i[all_movies movie_details latest_movies upcoming_movies popular_movies top_rated_movies]
 
-    def all_movies
-        movies = Movie.all
-        render json: movies.to_json( :include => {
-            :genres => {:except => [:created_at, :updated_at]},
-            :except => [:created_at, :updated_at]})
-    end
+  MUVI_API_KEY = ENV['TMDB_API_KEY']
 
-    def movie_details
-        movie_api_id = params[:id]
-        movie_details_url = "https://api.themoviedb.org/3/movie/#{movie_api_id}?api_key=#{MUVI_API_KEY}&language=en-US"
-        response = RestClient.get("#{movie_api_url}")
-        render json: response
-    end
+  def all_movies
+    movies = Movie.all
+    render json: movies.to_json(include: {
+                                  genres: { except: %i[created_at updated_at] },
+                                  except: %i[created_at updated_at]
+                                })
+  end
 
-    def latest_movies
-        latest_url = "https://api.themoviedb.org/3/movie/latest?api_key=#{MUVI_API_KEY}&language=en-US"
-        response = RestClient.get("#{latest_url}")
-        parsed_json = JSON.parse(response)
-        render json: parsedJSON["results"]
-    end
+  def movie_details
+    movie_api_id = params[:id]
+    movie_details_url = "https://api.themoviedb.org/3/movie/#{movie_api_id}?api_key=#{MUVI_API_KEY}&language=en-US"
+    render json: RestClient.get(movie_details_url.to_s)
+  end
 
-    def upcoming_movies
-        upcoming_url = "https://api.themoviedb.org/3/movie/upcoming?api_key=#{MUVI_API_KEY}&language=en-US&page=1"
-        response = RestClient.get("#{upcoming_url}")
-        parsed_json = JSON.parse(response)
-        render json: parsedJSON["results"]
-    end
+  def latest_movies
+    latest_url = "https://api.themoviedb.org/3/movie/latest?api_key=#{MUVI_API_KEY}&language=en-US"
+    parsed_json = JSON.parse(RestClient.get(latest_url.to_s))
+    render json: parsed_json['results']
+  end
 
-    def popular_movies
-        popular_url = "https://api.themoviedb.org/3/movie/popular?api_key=#{MUVI_API_KEY}&language=en-US&page=1"
-        response = RestClient.get("#{popular_url}")
-        parsed_json = JSON.parse(response)
-        render json: parsedJSON["results"]
-    end
+  def upcoming_movies
+    upcoming_page = 1
+    upcoming_url = "https://api.themoviedb.org/3/movie/upcoming?api_key=#{MUVI_API_KEY}&language=en-US&page=#{upcoming_page}"
+    parsed_json = JSON.parse(RestClient.get(upcoming_url.to_s))
+    render json: parsed_json['results']
+  end
 
-    def top_rated_movies
-        top_rated_url = "https://api.themoviedb.org/3/movie/top_rated?api_key=#{MUVI_API_KEY}&language=en-US&page=1"
-        response = RestClient.get("#{top_ratedr_url}")
-        parsed_json = JSON.parse(response)
-        render json: parsedJSON["results"]
-    end
+  def popular_movies
+    page = params['page']
+    popular_url = "https://api.themoviedb.org/3/movie/popular?api_key=#{MUVI_API_KEY}&language=en-US&page=#{page}"
+    parsed_json = JSON.parse(RestClient.get(popular_url.to_s))
+    render json: parsed_json['results']
+  end
+
+  def top_rated_movies
+    top_rated_page = 1
+    top_rated_url = "https://api.themoviedb.org/3/movie/top_rated?api_key=#{MUVI_API_KEY}&language=en-US&page=#{top_rated_page}"
+    parsed_json = JSON.parse(RestClient.get(top_rated_url.to_s))
+    render json: parsed_json['results']
+  end
 end
