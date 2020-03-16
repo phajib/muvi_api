@@ -1,30 +1,20 @@
 class ApplicationController < ActionController::API
-  def new
-      # user = User.new
-    end
+  before_action :current_user
 
-  def create
-    if current_user
-      redirect_to '/'
-    else
-      user = User.find_by(username: params[:username])
-      if user && user.password == params[:password]
-        session[:current_user_id] = user.id
-        render json: user, status: 200
-        # render json: UserSerializer.new(user), status: 200
-      else
-        redirect_to '/login'
-      end
-    end
+  def index
+    render :login
   end
 
-  def destroy
-    reset_session
-    # session.clear
-    redirect_to '/login'
-    # render json: {
-    #   message: "Successfully logged out"
-    #   }, status: 200
-    # end
+  def current_user
+    # @logged_in_user ||= session[:current_user_id] && User.find_by(id: session[:current_user_id])
+    @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
+  end
+
+  def logged_in?
+    !!current_user
+  end
+
+  def authenticate_user
+    redirect_to root_path unless logged_in?
   end
 end
