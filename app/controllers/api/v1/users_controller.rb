@@ -9,9 +9,10 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def create
+        @user = User.create(user_params)
         if @user.valid?
             session[:current_user_id] = @user.id
-            render json: user, status: :created
+            render json: @user, status: :created
         else
             render :new
             render json: { error: 'ERROR: Failed to create User' }, status: :unprocessable_entity
@@ -20,7 +21,7 @@ class Api::V1::UsersController < ApplicationController
     
     def show
         @user = User.find(params[:id])
-        render json: user#, include: [:movies]
+        render json: @user#, include: [:movies]
     end
 
     private
