@@ -27,7 +27,7 @@ class UserMoviesController < ApplicationController
                 vote_average: params[:movie]["vote_average"],
                 overview: params[:movie]["overview"],
                 release_date: params[:movie]["release_date"],
-                runtime: params[:movie]["runtime"],
+                runtime: params[:movie]["runtime"]
             )
             render json: UserMovies.create(user_id: user.id, movie_id: @add_movie.id).movie
         else
