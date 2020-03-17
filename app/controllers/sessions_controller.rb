@@ -7,12 +7,14 @@ class SessionsController < ApplicationController
       if current_user
         redirect_to '/'
       else
-        @user = User.find_by(username: params[:username])
-        if @user && @user.password == params[:password]
+        @user = User.find_by(username: login_params[:username])
+        if @user && @user.authenticate(login_params[:password])
           session[:current_user_id] = @user.id
+          # sessions[:user_id] = @user.id
           # render json: @user, status: 200
           render json: UserSerializer.new(@user), status: 200
         else
+          render json: { message: 'Invalid username or password' }, status: :unauthorized
           redirect_to '/login'
         end
       end
@@ -27,5 +29,10 @@ class SessionsController < ApplicationController
       #   }, status: 200
       # end
     end
+
+    private
+      def login_params
+        params.require(:user).permit(:username, :password)
+      end
 
 end
