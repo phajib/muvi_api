@@ -24,6 +24,10 @@ class Api::V1::UsersController < ApplicationController
         render json: @user#, include: [:movies]
     end
 
+    def profile
+        render json: { user: UserSerializer.new(current_user) }, status: :accepted
+    end
+
     private
         def user_params
             params.require(:user).permit(:username, :password, :about, :profile_picture)
