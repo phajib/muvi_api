@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :current_user
+  before_action :authenticate_user
 
   def index
     render :login
@@ -15,6 +15,7 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate_user
-    redirect_to root_path unless logged_in?
+    render json: { message: 'Please Log In to continue' }, status: :unauthorized unless logged_in?
+    # redirect_to root_path unless logged_in?
   end
 end
