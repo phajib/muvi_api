@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       resources :users, only: [:create]
 
       get '/profile' => 'users#index'
-      get '/userprofile' => 'uesrs#profile'
+      get '/userprofile' => 'users#profile'
       get '/user' => 'users#show'
       
       get '/movies' => 'movies#all_movies'
