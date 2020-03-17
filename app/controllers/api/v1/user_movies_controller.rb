@@ -1,4 +1,4 @@
-class UserMoviesController < ApplicationController
+class Api::V1::UserMoviesController < ApplicationController
     before_action :authorized, only: [:create, :index]
 
     def index #all

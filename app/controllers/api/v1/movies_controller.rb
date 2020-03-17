@@ -1,4 +1,4 @@
-class MoviesController < ApplicationController
+class Api::V1::MoviesController < ApplicationController
   require 'rest-client'
 
   # skip_before_action :authorized, only: %i[all_movies movie_details latest_movies upcoming_movies popular_movies top_rated_movies]
