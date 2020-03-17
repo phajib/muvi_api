@@ -4,6 +4,8 @@ Rails.application.routes.draw do
       resources :users, only: [:create]
 
       get '/profile' => 'users#index'
+      get '/userprofile' => 'uesrs#profile'
+      get '/user' => 'users#show'
       
       get '/movies' => 'movies#all_movies'
       get '/movie/:id' => 'movies#movie_details'
@@ -15,10 +17,10 @@ Rails.application.routes.draw do
       get '/usermovies', to: 'user_movies#index'
       post '/usermovies', to: 'user_movies#create'
     
-      get '/comments', to: 'comment#index'
+      get '/comments', to: 'comments#index'
       get '/comments/movie/:tmdb_id', to: 'comment#movie'
-      post '/comments', to: 'comment#create'
-      delete '/comments/:id', to: 'comment#destroy'
+      post '/comments', to: 'comments#create'
+      delete '/comments/:id', to: 'comments#destroy'
     end
   end
 
