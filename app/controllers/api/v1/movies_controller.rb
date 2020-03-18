@@ -1,9 +1,12 @@
 class Api::V1::MoviesController < ApplicationController
   require 'rest-client'
+  # https://medium.com/@cristicristo/using-the-rest-client-gem-to-seed-data-in-rails-b37bdc0e5d1
+  # Use above link to get data from TMDB API using rest-client
 
   skip_before_action :authenticate_user, only: %i[all_movies movie_details latest_movies upcoming_movies popular_movies top_rated_movies]
 
   MUVI_API_KEY = ENV['TMDB_API_KEY']
+
 
   def all_movies #index
     movies = Movie.all
@@ -21,9 +24,6 @@ class Api::V1::MoviesController < ApplicationController
 
   def latest_movies
     latest_url = "https://api.themoviedb.org/3/movie/latest?api_key=#{MUVI_API_KEY}&language=en-US"
-    # latest_url = "https://api.themoviedb.org/3/movie/latest?api_key=2c7ac09213443b720c7abaa7b2c0ec29&language=en-US"
-    # parsed_json = JSON.parse(RestClient.get("#{latest_url}".to_s))
-    # render json: parsed_json['results']
     render json: JSON.parse(RestClient.get("#{latest_url}"))["results"]
   end
 
