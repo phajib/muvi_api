@@ -7,6 +7,7 @@ gem 'active_model_serializers', '~> 0.10.10'
 gem 'faker', '~> 2.10', '>= 2.10.2'
 gem 'fast_jsonapi', '~> 1.5'
 gem 'rest-client', '~> 2.1'
+gem 'dotenv-rails', groups: [:development, :test]
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
