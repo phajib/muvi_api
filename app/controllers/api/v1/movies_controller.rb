@@ -47,4 +47,11 @@ class Api::V1::MoviesController < ApplicationController
     parsed_json = JSON.parse(RestClient.get("#{top_rated_url}".to_s))
     render json: parsed_json['results']
   end
+
+  def search
+    searchQuery = params[:original_title]
+    search_url = "https://api.themoviedb.org/3/search/company?api_key=#{MUVI_API_KEY}&query=" + searchQuery
+    parsed_json = JSON.parse(RestClient.get("#{search_url}".to_s))
+    render json: parsed_json
+  end
 end
