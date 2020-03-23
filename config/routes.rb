@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get '/upcoming' => 'movies#upcoming_movies'
       get '/popular/:page' => 'movies#popular_movies'
       get '/top_rated' => 'movies#top_rated_movies'
+      get '/search/:orignal_title' => 'movies#search'
     
       get '/usermovies', to: 'user_movies#index'
       post '/usermovies', to: 'user_movies#create'
