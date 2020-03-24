@@ -8,6 +8,7 @@ gem 'faker', '~> 2.10', '>= 2.10.2'
 gem 'fast_jsonapi', '~> 1.5'
 gem 'rest-client', '~> 2.1'
 gem 'dotenv-rails', groups: [:development, :test]
+gem 'jwt', '~> 2.2', '>= 2.2.1'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
