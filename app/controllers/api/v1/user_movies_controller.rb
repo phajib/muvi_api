@@ -9,8 +9,8 @@ class Api::V1::UserMoviesController < ApplicationController
     end
 
     def create
-        movieID = 0
-        params[:movie][:tmdb_id] ? movieID = params[:movie][:tmdb_id] : movieID = params[:movie][:id]
+        id = 0
+        params[:movie][:tmdb_id] ? id = params[:movie][:tmdb_id] : id = params[:movie][:id]
         user = User.find_by(username: params[:user][:username])
 
         if !Movie.find_by(tmdb_id: id)
@@ -32,7 +32,6 @@ class Api::V1::UserMoviesController < ApplicationController
             render json: UserMovies.create(user_id: user.id, movie_id: @add_movie.id).movie
         else
             movieID = Movie.where(tmdb_id: id)[0].id
-            # movieID = Movie.find(tmdb_id: id)
             if !user.user_movies.where(movie_id: movieID).length > 0
                 render json: UserMovies.create(user_id: user.id, movie_id: movieID).movie
             else

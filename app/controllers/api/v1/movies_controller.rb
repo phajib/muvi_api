@@ -10,10 +10,11 @@ class Api::V1::MoviesController < ApplicationController
 
   def all_movies #index
     movies = Movie.all
-    render json: movies.to_json(include: {
-                                  genres: { except: %i[created_at updated_at] },
-                                  except: %i[created_at updated_at]
-                                })
+    render json: movies.to_json(serialized_data)
+    # render json: movies.to_json(include: {
+    #                               genres: { except: %i[created_at updated_at] },
+    #                               except: %i[created_at updated_at]
+    #                             })
   end
 
   def movie_details
@@ -54,4 +55,15 @@ class Api::V1::MoviesController < ApplicationController
     parsed_json = JSON.parse(RestClient.get("#{search_url}".to_s))
     render json: parsed_json
   end
+
+  private
+    def serialized_data
+        {
+          :include => {
+              :genres => 
+              {:except => [:created_at, :updated_at]}
+          },
+          :except => [:created_at, :updated_at]
+        }
+    end
 end
