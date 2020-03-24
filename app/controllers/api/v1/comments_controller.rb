@@ -1,6 +1,6 @@
 class Api::V1::CommentsController < ApplicationController
     before_action :authorized, only: [:create, :destroy]
-    
+
     def movie
         movie = Movie.all.find_by(tmdb_id: params[:tmdb_id])
         render json: movie.comments
@@ -12,10 +12,16 @@ class Api::V1::CommentsController < ApplicationController
     end
 
     def create
+        movie = params["movie"]
+        # content = params["content"]
+        
         if movie["tmdb_id"]
             render json: Comment.create(comments_params)
         else
-            if Movie.find_by(tmdb_id: movie["id"])
+            movie = Movie.find_by(tmdb_id: movie['id'])
+
+            # if Movie.find_by(tmdb_id: movie["id"])
+            if movie
                 render json: Comment.create(comments_params)
             else
                 create_movie = Movie.create_or_find_by(
@@ -39,9 +45,7 @@ class Api::V1::CommentsController < ApplicationController
     end
 
     def destroy
-        comment = Comment.destroy(params[:id])
-        render json: comment
-        # render json: {comment_id: comment.id}
+        render json: Comment.destroy(params[:id])
     end
 
     private
