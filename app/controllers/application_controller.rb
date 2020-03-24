@@ -1,21 +1,38 @@
 class ApplicationController < ActionController::API
   before_action :authenticate_user
 
-  def index
-    render :login
+  def encode_token(payload)
+    JWT.encode(payload, 'my_s3cr3t') #secret key may need to be in a helper function which returns the secret key
+  end
+
+  def auth_header
+      # { Authorization: 'Bearer <token>' }
+      request.headers['Authorization']
+  end
+
+  def decoded_token
+      if auth_header
+        token = auth_header.split(' ')[1]
+        begin
+          JWT.decode(token, 'my_s3cr3t', true, algorithm: 'HS256') #the algorithm may need to be in a hash
+        rescue JWT::DecodeError
+          nil
+        end
+      end
   end
 
   def current_user
-    # @logged_in_user ||= session[:current_user_id] && User.find_by(id: session[:current_user_id])
-    @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
+      if decoded_token
+          user_id = decoded_token[0]['user_id']
+          @user = User.find_by(id: user_id)
+      end
   end
 
   def logged_in?
-    !!current_user
+      !!current_user
   end
 
   def authenticate_user
-    render json: { message: 'Please Log In to continue' }, status: :unauthorized unless logged_in?
-    # redirect_to root_path unless logged_in?
+      render json: { message: 'You Must Log In' }, status: :unauthorized unless logged_in?
   end
 end
