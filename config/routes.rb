@@ -2,10 +2,12 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users, only: [:create]
+      
+      post '/login' => 'auth#create'
 
-      get '/profile' => 'users#index'
-      get '/userprofile' => 'users#profile'
-      get '/user' => 'users#show'
+      get '/profile' => 'users#profile'
+      # get '/userprofile' => 'users#profile'
+      # get '/user' => 'users#show'
       
       get '/movies' => 'movies#all_movies'
       get '/movie/:id' => 'movies#movie_details'
@@ -25,16 +27,8 @@ Rails.application.routes.draw do
     end
   end
 
-
-  get '/login' => 'sessions#new'
-  post '/login' => 'sessions#create'
-  post '/logout' => 'sessions#destroy'
-# namespace :api do
-#   namespace :v1 do
-    # resources :movies
-    # resources :user_movies
-    # resources :comments
-#   end
-# end
+  # get '/login' => 'sessions#new'
+  # post '/login' => 'sessions#create'
+  # post '/logout' => 'sessions#destroy'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
