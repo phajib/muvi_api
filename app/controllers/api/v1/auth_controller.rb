@@ -1,15 +1,16 @@
 class Api::V1::AuthController < ApplicationController
-    skip_before_action :authenticate_user, only: [:create]
+    # skip_before_action :authenticate_user, only: [:create]
 
     def create
-        @user = User.find_by(username: login_params[:username])
+        @user = User.find_by(params[:username])
         #User#authenticate comes from BCrypt
         if @user && @user.authenticate(login_params[:password])
           # encode token comes from ApplicationController
           token = encode_token({ user_id: @user.id })
           render json: { user: UserSerializer.new(@user), jwt: token }, status: :accepted
         else
-          render json: { message: 'Username or Password is INVALID' }, status: :unauthorized
+          # render json: { status: 401, errors: ['User Not Found', 'Verify Credentials and Try Again or Signup'] }
+          render json: { message: 'Invalide username or password' }, status: :unauthorized
         end
     end
 

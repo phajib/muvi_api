@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-    skip_before_action :authenticate_user, only: [:allInfo, :info, :create, :edit]
+    # skip_before_action :authenticate_user, only: [:allInfo, :info, :create, :edit]
 
     # def index
     #     users = User.all
@@ -17,7 +17,7 @@ class Api::V1::UsersController < ApplicationController
     def allInfo 
         user = User.find(@user.id)
         if user
-            render json: {userMovies: user.movies}
+            render json: { userMovies: user.movies }
         else
             render json: {error: 'ERROR: No User Datat' }, status: :not_acceptable
         end
@@ -26,7 +26,7 @@ class Api::V1::UsersController < ApplicationController
     def info 
         profile = User.find(params[:id])
         if profile
-            render json: {user_info: profile, userMovies: profile.games, comments: profile.comments}
+            render json: {user_info: profile, userMovies: profile.movies, comments: profile.comments}
             # render json: @user#, include: [:movies]   
         else
             render json: { error: 'ERROR: No User Data' }, status: :not_acceptable
@@ -36,8 +36,8 @@ class Api::V1::UsersController < ApplicationController
     def create
         @user = User.create(user_params)
         if @user.valid?
-            @token = encode_token(user_id: @user.id)
-            render json: { user: @user, jwt: @token }, status: :created
+            render json: { user: UserSerializer.new(@user), jwt: encode_token(user_id: @user.id) }, status: :created
+            # render json: { user: @user, jwt: @token }, status: :created
             # session[:current_user_id] = @user.id
             # render json: @user, status: :created
         else

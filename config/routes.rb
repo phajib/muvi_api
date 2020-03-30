@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :users#, only: [:create]
+      resources :users, only: [:create]
       post '/login' => 'auth#create'
       
       get '/user/all_info' => 'users#allInfo'
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       get '/upcoming' => 'movies#upcoming_movies'
       get '/popular/:page' => 'movies#popular_movies'
       get '/top_rated' => 'movies#top_rated_movies'
-      get '/search/:orignal_title' => 'movies#search'
+      get '/search/:title' => 'movies#search'
       
       get '/usermovies' => 'user_movies#index'
       post '/usermovies' => 'user_movies#create'

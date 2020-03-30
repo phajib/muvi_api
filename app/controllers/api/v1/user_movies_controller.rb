@@ -1,5 +1,5 @@
 class Api::V1::UserMoviesController < ApplicationController
-    before_action :authenticate_user!, only: [:create, :index]
+    # before_action :authenticate_user!, only: [:create, :index]
 
     def index #all
         users_id = request.headers["User"]
