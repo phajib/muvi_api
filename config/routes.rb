@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:create]
       post '/login' => 'auth#create'
+      # post '/login' => 'sessions#create'
+      delete '/logout' => 'sessions#destroy'
       
       get '/user/all_info' => 'users#allInfo'
       get '/user/:id/info' => 'users#info'

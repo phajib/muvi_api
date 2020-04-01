@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::API
-  # before_action :authenticate_user
+  before_action :authenticate_user
 
   def encode_token(payload)
-    JWT.encode(payload, 'mine') #secret key may need to be in a helper function which returns the secret key
+    JWT.encode(payload, 'mine')
   end
 
   def auth_header
@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
       if auth_header
         token = auth_header.split(' ')[1]
         begin
-          JWT.decode(token, 'mine', true, algorithm: 'HS256') #the algorithm may need to be in a hash
+          JWT.decode(token, 'mine', true, algorithm: 'HS256')
         rescue JWT::DecodeError
           nil
         end
@@ -22,6 +22,7 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
+    # @current_user ||= User.find(session[:user_id]) if session[:user_id]
       if decoded_token
           user_id = decoded_token[0]['user_id']
           @user = User.find_by(id: user_id)

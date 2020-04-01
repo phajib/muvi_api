@@ -1,5 +1,5 @@
 class Api::V1::CommentsController < ApplicationController
-    # before_action :authorized, only: [:create, :destroy]
+    before_action :authorized, only: [:create, :destroy]
 
   def movie
     movie = Movie.all.find_by(tmdb_id: params[:tmdb_id])
