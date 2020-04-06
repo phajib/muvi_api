@@ -50,11 +50,13 @@ class Api::V1::UsersController < ApplicationController
         #     render json: {error: 'ERROR: Failed to create User'}, status: :not_acceptable
         # end
         @user = User.create(user_params)
+        # byebug
+
         if @user.valid?
             # @token = encode_token(user_id: @user.id)
             # render json: { user: @user, jwt: @token }, status: :created
             # render json: { user: @user, jwt: encode_toke(user_id: @user.id)}, status: :created
-            render json: { user: UserSerializer.new(@user), jwt: encode_toke(user_id: @user.id)}, status: :created
+            render json: { user: UserSerializer.new(@user), jwt: encode_token(user_id: @user.id)}, status: :created
         else
             render json: { error: 'ERROR: Failed to create User' }, status: :not_acceptable
         end
@@ -63,8 +65,10 @@ class Api::V1::UsersController < ApplicationController
     def edit
         user = User.find(@user.id)
         if params[:password] == "" then
-            user.update(username: params[:user][:username], about: params[:user][:about], picture_profile: params[:user][:picture_profile])
-        else 
+            user.update(username: params[:user][:username],
+                about: params[:user][:about],
+                picture_profile: params[:user][:picture_profile])
+        else
             user.update(user_params)
         end
 
@@ -78,6 +82,6 @@ class Api::V1::UsersController < ApplicationController
 
     private
         def user_params
-            params.require(:users).permit(:username, :password, :about, :profile_picture)
+            params.require(:user).permit(:username, :password, :about, :profile_picture)
         end
 end
