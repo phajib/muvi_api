@@ -29,8 +29,7 @@ class Api::V1::MoviesController < ApplicationController
   end
 
   def upcoming_movies
-    upcoming_page = 1
-    upcoming_url = "https://api.themoviedb.org/3/movie/upcoming?api_key=#{MUVI_API_KEY}&language=en-US&page=#{upcoming_page}"
+    upcoming_url = "https://api.themoviedb.org/3/movie/upcoming?api_key=#{MUVI_API_KEY}&language=en-US"
     parsed_json = JSON.parse(RestClient.get("#{upcoming_url}".to_s))
     render json: parsed_json['results']
   end
@@ -43,7 +42,7 @@ class Api::V1::MoviesController < ApplicationController
   end
 
   def top_rated_movies
-    top_rated_page = 1
+    top_rated_page = params['page']
     top_rated_url = "https://api.themoviedb.org/3/movie/top_rated?api_key=#{MUVI_API_KEY}&language=en-US&page=#{top_rated_page}"
     parsed_json = JSON.parse(RestClient.get("#{top_rated_url}".to_s))
     render json: parsed_json['results']
