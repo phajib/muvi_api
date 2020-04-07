@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       # post '/login' => 'sessions#create'
       delete '/logout' => 'sessions#destroy'
       
-      get '/user/all_info' => 'users#allInfo'
+      get '/user/all_info' => 'users#show'
       get '/user/:id/info' => 'users#info'
       get '/profile' => 'users#profile'
       patch '/user/edit' => "users#edit"
