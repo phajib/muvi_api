@@ -9,34 +9,37 @@ class Api::V1::UserMoviesController < ApplicationController
     end
 
     def create
+        byebug
         id = 0
-        params[:movie][:tmdb_id] ? id = params[:movie][:tmdb_id] : id = params[:movie][:id]
+        params[:movie][:id] ? id = params[:movie][:id] : id = params[:movie][:id]
         user = User.find_by(username: params[:user][:username])
 
         if !Movie.find_by(tmdb_id: id)
-            @add_movie = Movie.create_or_find_by(  #create_or_find_by! Will raise if validation error
-                popularity: params[:movie]["popularity"],
-                vote_count: params[:movie]["vote_count"],
-                video: params[:movie]["video"],
-                poster_path: params[:movie]["poster_path"],
-                homepage: params[:movie]["homepage"],
-                tmdb_id: params[:movie]["tmdb_id"],
-                imdb_id: params[:movie]["imdb_id"],
-                backdrop_path: params[:movie]["backdrop_path"],
-                original_title: params[:movie]["original_title"],
-                vote_average: params[:movie]["vote_average"],
-                overview: params[:movie]["overview"],
-                release_date: params[:movie]["release_date"],
-                runtime: params[:movie]["runtime"]
-            )
-            render json: UserMovies.create(user_id: user.id, movie_id: @add_movie.id).movie
+          @add_movie = Movie.create_or_find_by(  #create_or_find_by! Will raise if validation error
+            title: params[:movie]["title"],
+            original_title: params[:movie]["original_title"],
+            poster_path: params[:movie]["poster_path"],
+            tmdb_id: params[:movie]["id"],
+            imdb_id: params[:movie]["imdb_id"],
+            overview: params[:movie]["overview"],
+            backdrop_path: params[:movie]["backdrop_path"],
+            popularity: params[:movie]["popularity"],
+            runtime: params[:movie]["runtime"],
+            release_date: params[:movie]["release_date"],
+            video: params[:movie]["video"],
+            tagline: params[:movie]["tagline"],
+            vote_count: params[:movie]["vote_count"],
+            vote_average: params[:movie]["vote_average"],
+            homepage: params[:movie]["homepage"]
+          )
+          render json: UserMovies.create(user_id: user.id, movie_id: @add_movie.id).movie
         else
-            movieID = Movie.where(tmdb_id: id)[0].id
-            if !user.user_movies.where(movie_id: movieID).length > 0
-                render json: UserMovies.create(user_id: user.id, movie_id: movieID).movie
-            else
-                render json: {message: 'Movie exists in your list!'}
-            end
+          movieId = Movie.where(tmdb_id: id)[0].id
+          if user.user_movies.where(movie_id: movieId).length > 0
+            render json: { message: 'You have saved this movie already!' }
+          else
+            render json: UserMovies.create(user_id: user.id, movie_id: movieId).movie
+          end
         end
     end
 end
