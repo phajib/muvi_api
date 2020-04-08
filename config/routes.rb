@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       post '/usermovies' => 'user_movies#create'
 
       get '/comments' => 'comments#index'
-      get '/comments/movie/:tmdb_id' => 'comment#movie'
+      get '/comments/movie/:movieID' => 'comment#movie'
       post '/comments' => 'comments#create'
       delete '/comments/:id' => 'comments#destroy'
     end
