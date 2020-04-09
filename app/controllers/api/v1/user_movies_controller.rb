@@ -1,7 +1,7 @@
 class Api::V1::UserMoviesController < ApplicationController
     before_action :authenticate_user, only: [:create, :index]
 
-    def index #all
+    def index
         users_id = request.headers["User"]
         find_user = User.find(users_id)
         users_movies = find_user.movies
@@ -9,10 +9,10 @@ class Api::V1::UserMoviesController < ApplicationController
     end
 
     def create
-        byebug
+        # byebug
         id = 0
-        params[:movie][:id] ? id = params[:movie][:id] : id = params[:movie][:id]
-        user = User.find_by(username: params[:user][:username])
+        params[:movie][:id] ? id = params[:movie][:id] : id = params[:movie][:tmdb_id]
+        user = User.find_by(user_id: params[:user][:id])
 
         if !Movie.find_by(tmdb_id: id)
           @add_movie = Movie.create_or_find_by(  #create_or_find_by! Will raise if validation error
@@ -34,11 +34,11 @@ class Api::V1::UserMoviesController < ApplicationController
           )
           render json: UserMovies.create(user_id: user.id, movie_id: @add_movie.id).movie
         else
-          movieId = Movie.where(tmdb_id: id)[0].id
-          if user.user_movies.where(movie_id: movieId).length > 0
+          movie_ID = Movie.where(tmdb_id: id)[0].id
+          if user.user_movies.where(movie_id: movie_ID).length > 0
             render json: { message: 'You have saved this movie already!' }
           else
-            render json: UserMovies.create(user_id: user.id, movie_id: movieId).movie
+            render json: UserMovies.create(user_id: user.id, movie_id: movie_ID).movie
           end
         end
     end
