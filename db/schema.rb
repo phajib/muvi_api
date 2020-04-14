@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2020_03_14_093432) do
     t.string "overview"
     t.integer "release_date"
     t.integer "runtime"
+    t.string "tagline"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

@@ -15,6 +15,7 @@ class CreateMovies < ActiveRecord::Migration[6.0]
       t.string :overview
       t.integer :release_date
       t.integer :runtime
+      t.string :tagline
 
       t.timestamps
     end
