@@ -35,6 +35,7 @@ class Movie < ApplicationRecord
   def self.findOrCreateMovie(mov_details, movie)
     # Create Movie
     Movie.create_or_find_by(
+      # title: mov_details[:movie]['title'],
       popularity: mov_details[:movie]['popularity'],
       vote_count: mov_details[:movie]['vote_count'],
       video: mov_details[:movie]['video'],
@@ -47,7 +48,8 @@ class Movie < ApplicationRecord
       vote_average: mov_details[:movie]['vote_average'],
       overview: mov_details[:movie]['overview'],
       release_date: mov_details[:movie]['release_date'],
-      runtime: mov_details[:movie]['runtime']
+      runtime: mov_details[:movie]['runtime'],
+      tagline: mov_details[:movie]['tagline'],
     )
 
     mov_details['genres'].each do |genre|

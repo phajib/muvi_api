@@ -11,7 +11,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.find(@user.id)
     # render json: { savedMovies: user.movies }
     if @user
-        render json: { savedMovies: user.movies }
+        render json: { savedMovies: @user.movies }
     else
         render json: { error: 'ERROR: No User Datat' }, status: :not_acceptable
     end
@@ -19,19 +19,16 @@ class Api::V1::UsersController < ApplicationController
 
   def info
     user_profile = User.find(params[:id])
-    # byebug
-    # render json: { user_info: user_profile, savedMovies: user_profile.movies, comments: user_profile.comments }
-    if user_profile
-      render json: { user_info: user_profile, savedMovies: user_profile.movies, comments: user_profile.comments}
-    else
-      render json: { error: 'ERROR: No User Data' }, status: :not_acceptable
-    end
+    render json: { user_info: user_profile, savedMovies: user_profile.movies, userComments: user_profile.comments }
+    # if user_profile
+    #   render json: { user_info: user_profile, savedMovies: user_profile.movies, userComments: user_profile.comments}
+    # else
+    #   render json: { error: 'ERROR: No User Data' }, status: :not_acceptable
+    # end
   end
 
   def create
     @user = User.create(user_params)
-    # byebug
-
     if @user.valid?
       render json: { user: UserSerializer.new(@user), jwt: encode_token(user_id: @user.id)}, status: :created
     else
@@ -41,10 +38,10 @@ class Api::V1::UsersController < ApplicationController
 
   def edit
     user = User.find(@user.id)
-    if params[:password] == "" then
+    if params[:password] == ''
       user.update(username: params[:user][:username],
         about: params[:user][:about],
-        picture_profile: params[:user][:picture_profile])
+        profile_picture: params[:user][:profile_picture])
     else
       user.update(user_params)
     end
