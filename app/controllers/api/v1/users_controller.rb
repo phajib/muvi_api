@@ -1,23 +1,22 @@
 class Api::V1::UsersController < ApplicationController
-    # skip_before_action :authenticate_user, only: [:allInfo, :info, :create, :edit]
-    # skip_before_action :authenticate_user, only: [:create]
-  before_action :authenticate_user, only: [:show, :info, :create, :edit]
+    skip_before_action :authenticate_user, only: [:show, :info, :create, :edit]
 
   def profile
     render json: { user: UserSerializer.new(current_user) }, status: :accepted
   end
 
   def show
-    @user = User.find(@user.id)
-    # render json: { savedMovies: user.movies }
-    if @user
-        render json: { savedMovies: @user.movies }
-    else
-        render json: { error: 'ERROR: No User Datat' }, status: :not_acceptable
-    end
+    user = User.find(@user.id)
+    render json: { savedMovies: user.movies }
+    # if user
+    #   render json: { savedMovies: user.movies }
+    # else
+    #     render json: { error: 'ERROR: No User Data' }, status: :not_acceptable
+    # end
   end
 
   def info
+    # byebug
     user_profile = User.find(params[:id])
     render json: { user_info: user_profile, savedMovies: user_profile.movies, userComments: user_profile.comments }
     # if user_profile
