@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       post '/login' => 'auth#create'
       # post '/login' => 'sessions#create'
       delete '/logout' => 'sessions#destroy'
-      
+
       get '/user/all_info' => 'users#show'
       get '/user/:id/info' => 'users#info'
       get '/profile' => 'users#profile'
@@ -21,12 +21,13 @@ Rails.application.routes.draw do
       get '/popular/:page' => 'movies#popular_movies'
       get '/top_rated' => 'movies#top_rated_movies'
       get '/search/:title' => 'movies#search'
-      
+
       get '/usermovies' => 'user_movies#index'
       post '/usermovies' => 'user_movies#create'
 
       get '/comments' => 'comments#index'
-      get '/comments/movie/:movieID' => 'comments#movie'
+      get '/comments/user_comments' => 'comments#show'
+      get '/comments/movie/:id' => 'comments#movie'
       post '/comments' => 'comments#create'
       delete '/comments/:id' => 'comments#destroy'
     end
