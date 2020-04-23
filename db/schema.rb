@@ -18,9 +18,10 @@ ActiveRecord::Schema.define(version: 2020_03_14_093432) do
   create_table "comments", force: :cascade do |t|
     t.integer "user_id"
     t.integer "movie_id"
-    t.string "content"
-    t.integer "rating"
     t.string "movie_title"
+    t.string "content"
+    t.string "username"
+    t.string "profile_picture"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
