@@ -1,8 +1,11 @@
 class Api::V1::CommentsController < ApplicationController
-    before_action :authenticate_user, only: [:create, :destroy]
+  before_action :authenticate_user, only: [:create, :destroy]
 
   def movie
-    movie_found = Movie.find_by(tmdb_id: params[:id])
+    # byebug
+    # movie_found = Movie.find_by(tmdb_id: params[:id])
+    # movie_found = Movie.find_by(tmdb_id: params[:tmdb_id])
+    movie_found = Movie.find_by(id: params[:id])
     # render json: movie_found.comments
     if movie_found
       if movie_found.comments.count == 0
@@ -38,7 +41,8 @@ class Api::V1::CommentsController < ApplicationController
         username: current_user[:username]
         })
     else
-      movie = Movie.find_by(tmdb_id: movie[:id])
+      # movie = Movie.find_by(tmdb_id: movie[:id])
+      movie = Movie.find_by(id: movie[:id])
 
       if movie
         render json: Comment.create({
