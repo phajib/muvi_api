@@ -3,16 +3,12 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:create]
       post '/login' => 'auth#create'
-      # post '/login' => 'sessions#create'
       delete '/logout' => 'sessions#destroy'
 
       get '/user/all_info' => 'users#show'
       get '/user/:id/info' => 'users#info'
       get '/profile' => 'users#profile'
       patch '/user/edit' => "users#edit"
-
-      # get '/userprofile' => 'users#profile'
-      # get '/user' => 'users#show'
 
       get '/movies' => 'movies#all_movies'
       get '/movie/:id' => 'movies#movie_details'
