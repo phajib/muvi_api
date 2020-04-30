@@ -36,7 +36,9 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def edit
-    user = User.find(@user.id)
+    # byebug
+    # user = User.find(@user.id)
+    user = User.find(current_user.id)
     if params[:password] == ''
       user.update(username: params[:user][:username],
         about: params[:user][:about],
