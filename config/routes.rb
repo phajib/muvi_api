@@ -12,10 +12,11 @@ Rails.application.routes.draw do
 
       get '/movies' => 'movies#all_movies'
       get '/movie/:id' => 'movies#movie_details'
-      get '/latest' => 'movies#latest_movies'
+      # get '/latest' => 'movies#latest_movies'
       get '/upcoming' => 'movies#upcoming_movies'
       get '/popular/:page' => 'movies#popular_movies'
       get '/top_rated' => 'movies#top_rated_movies'
+      get '/recommendations/' => 'movies#recommendations_movies'
       get '/search/:title' => 'movies#search'
 
       get '/usermovies' => 'user_movies#index'
